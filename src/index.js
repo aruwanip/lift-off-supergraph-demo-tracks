@@ -5,9 +5,10 @@ const typeDefs = gql(readFileSync(path.resolve(__dirname, "./schema.graphql"), {
 const resolvers = require('./resolvers');
 const TrackAPI = require('./datasources/track-api');
 
+const {buildSubgraphSchema} = require('@apollo/subgraph');
+
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildSubgraphSchema({ typeDefs, resolvers }),
   dataSources: () => {
     return {
       trackAPI: new TrackAPI(),
